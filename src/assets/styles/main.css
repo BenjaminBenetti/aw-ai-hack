@@ -1,0 +1,63 @@
+/* Main CSS Entry Point */
+/* Import order: reset → theme → components → utilities */
+
+/* Import font */
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
+
+/* Import theme variables */
+@import './theme.css';
+
+/* Import component styles */
+@import './neon-noir.css';
+
+/* Global reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  line-height: var(--terminal-line-height);
+}
+
+body {
+  font-family: var(--terminal-font);
+  background: var(--terminal-bg);
+  color: var(--terminal-text);
+  overflow-x: hidden;
+  min-height: var(--terminal-screen-min-height);
+  position: relative;
+  letter-spacing: var(--terminal-letter-spacing);
+}
+
+/* Global focus styles for accessibility */
+*:focus {
+  outline: 2px solid var(--terminal-primary);
+  outline-offset: 2px;
+}
+
+/* Selection styles */
+::selection {
+  background: var(--terminal-primary);
+  color: var(--terminal-bg);
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--terminal-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--terminal-primary);
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--terminal-secondary);
+}

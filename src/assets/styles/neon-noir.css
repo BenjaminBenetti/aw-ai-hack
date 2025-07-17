@@ -1,23 +1,7 @@
-/* Neon Noir Theme */
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+/* Terminal Weather Component Styles */
+/* This file contains component-specific styles using theme variables */
 
-/* Global Styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Orbitron', monospace;
-  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%);
-  color: #00ffff;
-  overflow-x: hidden;
-  min-height: 100vh;
-  position: relative;
-}
-
-/* City Background Effect */
+/* Terminal Screen Effect */
 body::before {
   content: '';
   position: fixed;
@@ -26,49 +10,58 @@ body::before {
   width: 100%;
   height: 100%;
   background: 
-    radial-gradient(circle at 20% 80%, rgba(255, 20, 147, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(255, 215, 0, 0.05) 0%, transparent 50%);
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      var(--terminal-scanline) 2px,
+      var(--terminal-scanline) 4px
+    );
   pointer-events: none;
-  z-index: -1;
+  z-index: 1;
+  animation: scanlines var(--terminal-scanline-duration) linear infinite;
 }
 
-/* Weather Page Styles */
-.weather-page {
-  min-height: 100vh;
+@keyframes scanlines {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(4px); }
+}
+
+/* Terminal Screen Styles */
+.terminal-screen {
+  min-height: var(--terminal-screen-min-height);
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: var(--terminal-padding-medium);
   position: relative;
+  background: var(--terminal-bg);
 }
 
-.weather-container {
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(10px);
-  border: 2px solid #00ffff;
-  border-radius: 15px;
-  padding: 40px;
-  max-width: 500px;
-  width: 100%;
-  box-shadow: 
-    0 0 30px rgba(0, 255, 255, 0.5),
-    inset 0 0 30px rgba(0, 255, 255, 0.1);
+.terminal-container {
+  background: var(--terminal-bg);
+  border: var(--terminal-border-width) var(--terminal-border-style) var(--terminal-border);
+  border-radius: var(--terminal-border-radius);
+  padding: 0;
+  max-width: var(--terminal-container-max-width);
+  width: var(--terminal-container-width);
+  box-shadow: var(--terminal-shadow-box);
   position: relative;
+  font-family: var(--terminal-font);
 }
 
-.weather-container::before {
+.terminal-container::before {
   content: '';
   position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(45deg, #ff1493, #00ffff, #ffd700, #ff1493);
+  top: calc(-1 * var(--terminal-border-width));
+  left: calc(-1 * var(--terminal-border-width));
+  right: calc(-1 * var(--terminal-border-width));
+  bottom: calc(-1 * var(--terminal-border-width));
+  background: linear-gradient(45deg, var(--terminal-primary), var(--terminal-secondary), var(--terminal-primary));
   background-size: 200% 200%;
-  border-radius: 15px;
+  border-radius: var(--terminal-border-radius);
   z-index: -1;
-  animation: borderGlow 3s ease-in-out infinite alternate;
+  animation: borderGlow var(--terminal-glow-duration) ease-in-out infinite alternate;
 }
 
 @keyframes borderGlow {
@@ -76,66 +69,91 @@ body::before {
   100% { background-position: 100% 50%; }
 }
 
-.page-title {
-  text-align: center;
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 30px;
-  text-shadow: 
-    0 0 10px #00ffff,
-    0 0 20px #00ffff,
-    0 0 30px #00ffff;
-  color: #00ffff;
-  text-transform: uppercase;
-  letter-spacing: 3px;
+.ascii-art {
+  color: var(--terminal-primary);
+  font-size: var(--terminal-font-size-small);
+  line-height: var(--terminal-line-height);
+  text-shadow: var(--terminal-glow-small), var(--terminal-glow-medium);
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  font-family: var(--terminal-font);
 }
 
-.weather-display {
-  text-align: center;
+.terminal-content {
+  padding: var(--terminal-padding-medium);
+  color: var(--terminal-text);
+  font-family: var(--terminal-font);
 }
 
-.location {
-  font-size: 1.2rem;
-  color: #ff1493;
-  margin-bottom: 20px;
-  text-shadow: 0 0 10px #ff1493;
-  font-weight: 400;
+.terminal-prompt {
+  color: var(--terminal-primary);
+  font-size: var(--terminal-font-size-base);
+  margin-bottom: var(--terminal-padding-small);
+  text-shadow: var(--terminal-glow-small);
+  font-family: var(--terminal-font);
 }
 
-.temperature {
-  font-size: 4rem;
-  font-weight: 900;
-  color: #ffd700;
-  margin-bottom: 30px;
-  text-shadow: 
-    0 0 20px #ffd700,
-    0 0 40px #ffd700,
-    0 0 60px #ffd700;
-  animation: temperatureGlow 2s ease-in-out infinite alternate;
+.prompt-symbol {
+  color: var(--terminal-secondary);
+  font-weight: bold;
+  text-shadow: var(--terminal-glow-medium);
 }
 
-@keyframes temperatureGlow {
-  0% { text-shadow: 0 0 20px #ffd700, 0 0 40px #ffd700, 0 0 60px #ffd700; }
-  100% { text-shadow: 0 0 30px #ffd700, 0 0 50px #ffd700, 0 0 80px #ffd700; }
+.terminal-output {
+  margin-top: var(--terminal-margin-large);
+  font-family: var(--terminal-font);
 }
 
-.weather-details {
+.data-section {
+  margin-bottom: var(--terminal-margin-large);
+}
+
+.section-header {
+  color: var(--terminal-secondary);
+  font-weight: bold;
+  margin-bottom: var(--terminal-margin-medium);
+  text-shadow: var(--terminal-glow-medium);
+  font-family: var(--terminal-font);
+}
+
+.data-row {
   display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 15px;
-  margin-top: 20px;
+  justify-content: space-between;
+  margin-bottom: var(--terminal-margin-small);
+  color: var(--terminal-text);
+  font-family: var(--terminal-font);
 }
 
-.weather-details > div {
-  background: rgba(0, 255, 255, 0.1);
-  padding: 10px 15px;
-  border-radius: 8px;
-  border: 1px solid #00ffff;
-  font-size: 0.9rem;
-  color: #00ffff;
-  text-shadow: 0 0 5px #00ffff;
-  min-width: 120px;
+.data-label {
+  color: var(--terminal-secondary);
+  font-weight: bold;
+  text-shadow: var(--terminal-glow-small);
+}
+
+.data-value {
+  color: var(--terminal-primary);
+  font-weight: bold;
+  text-shadow: var(--terminal-glow-small);
+}
+
+.cursor {
+  color: var(--terminal-primary);
+  animation: blink var(--terminal-blink-duration) infinite;
+  font-weight: bold;
+  text-shadow: var(--terminal-glow-medium);
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.terminal-footer {
+  color: var(--terminal-primary);
+  font-size: var(--terminal-font-size-small);
+  text-shadow: var(--terminal-glow-small);
+  font-family: var(--terminal-font);
 }
 
 /* Loading and Error States */
@@ -143,24 +161,26 @@ body::before {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  font-size: 1.5rem;
-  color: #00ffff;
-  text-shadow: 0 0 10px #00ffff;
-  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%);
+  min-height: var(--terminal-screen-min-height);
+  font-size: var(--terminal-font-size-base);
+  color: var(--terminal-text);
+  text-shadow: var(--terminal-glow-medium);
+  background: var(--terminal-bg);
+  font-family: var(--terminal-font);
 }
 
 .error {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  font-size: 1.5rem;
-  color: #ff1493;
-  text-shadow: 0 0 10px #ff1493;
-  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%);
+  min-height: var(--terminal-screen-min-height);
+  font-size: var(--terminal-font-size-base);
+  color: var(--terminal-text);
+  text-shadow: var(--terminal-glow-medium);
+  background: var(--terminal-bg);
   text-align: center;
-  padding: 20px;
+  padding: var(--terminal-padding-medium);
+  font-family: var(--terminal-font);
 }
 
 /* Rain Effect */
@@ -177,7 +197,7 @@ body::before {
 
 .rain-drop {
   position: absolute;
-  background: linear-gradient(transparent, rgba(0, 255, 255, 0.6));
+  background: linear-gradient(transparent, var(--terminal-rain));
   width: 2px;
   height: 100px;
   animation: rain-fall linear infinite;
@@ -196,25 +216,22 @@ body::before {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .weather-container {
-    padding: 20px;
-    margin: 10px;
+  .terminal-container {
+    padding: 0;
+    margin: var(--terminal-padding-small);
+    max-width: 100%;
   }
   
-  .page-title {
-    font-size: 2rem;
+  .ascii-art {
+    font-size: 0.6rem;
   }
   
-  .temperature {
-    font-size: 3rem;
+  .terminal-content {
+    padding: var(--terminal-margin-medium);
   }
   
-  .weather-details {
+  .data-row {
     flex-direction: column;
-    align-items: center;
-  }
-  
-  .weather-details > div {
-    min-width: 200px;
+    gap: 5px;
   }
 }

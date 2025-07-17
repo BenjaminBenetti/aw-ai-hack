@@ -1,0 +1,75 @@
+/* Terminal Theme Variables */
+:root {
+  /* Colors */
+  --terminal-bg: #000000;
+  --terminal-primary: #ff1493;
+  --terminal-secondary: #ff69b4;
+  --terminal-accent: #ff20aa;
+  --terminal-text: #ff1493;
+  --terminal-border: #ff1493;
+  --terminal-glow: #ff1493;
+  --terminal-rain: rgba(255, 20, 147, 0.4);
+  --terminal-scanline: rgba(255, 20, 147, 0.03);
+  
+  /* Typography */
+  --terminal-font: 'Courier Prime', 'Courier New', monospace;
+  --terminal-font-size-base: 1rem;
+  --terminal-font-size-small: 0.8rem;
+  --terminal-font-size-large: 1.2rem;
+  --terminal-line-height: 1.2;
+  --terminal-letter-spacing: 0.05em;
+  
+  /* Spacing */
+  --terminal-padding-small: 10px;
+  --terminal-padding-medium: 20px;
+  --terminal-padding-large: 40px;
+  --terminal-margin-small: 8px;
+  --terminal-margin-medium: 15px;
+  --terminal-margin-large: 20px;
+  
+  /* Effects */
+  --terminal-glow-small: 0 0 5px var(--terminal-glow);
+  --terminal-glow-medium: 0 0 10px var(--terminal-glow);
+  --terminal-glow-large: 0 0 20px var(--terminal-glow);
+  --terminal-shadow-box: 0 0 20px rgba(255, 20, 147, 0.5), inset 0 0 20px rgba(255, 20, 147, 0.1);
+  
+  /* Borders */
+  --terminal-border-width: 2px;
+  --terminal-border-style: solid;
+  --terminal-border-radius: 0;
+  
+  /* Animations */
+  --terminal-blink-duration: 1s;
+  --terminal-glow-duration: 2s;
+  --terminal-scanline-duration: 0.1s;
+  
+  /* Layout */
+  --terminal-container-max-width: 900px;
+  --terminal-container-width: 100%;
+  --terminal-screen-min-height: 100vh;
+}
+
+/* Dark mode support (if needed) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Already dark by default */
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --terminal-primary: #ff0080;
+    --terminal-secondary: #ff4da6;
+    --terminal-glow: #ff0080;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --terminal-blink-duration: 0s;
+    --terminal-glow-duration: 0s;
+    --terminal-scanline-duration: 0s;
+  }
+}
