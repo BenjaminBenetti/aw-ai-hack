@@ -141,8 +141,6 @@ export class WeatherService {
       const precipitationArray: number[] = Array.from(daily.variables(2)!.valuesArray()!); // precipitation_sum
       const windSpeedArray: number[] = Array.from(daily.variables(3)!.valuesArray()!); // wind_speed_10m_max
       const weatherCodeArray: number[] = Array.from(daily.variables(4)!.valuesArray()!); // weather_code
-
-      console.log(tempMaxArray);
       
       // Process each day's data (limited to 7 days)
       const numDays = Math.min(7, tempMaxArray.length);

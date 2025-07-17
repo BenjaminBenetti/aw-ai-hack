@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { WeatherData, ForecastData, weatherService } from '../service/weather-service.ts';
 import { ForecastBarGraph, ForecastMetric } from './forecast-bar-graph.tsx';
 import { ForecastButtons } from './forecast-buttons.tsx';
+import { FrostedGlass } from '../../ui/components/frosted-glass.tsx';
 
 interface WeatherTerminalProps {
   weatherData: WeatherData;
@@ -31,7 +32,15 @@ export const WeatherTerminal: React.FC<WeatherTerminalProps> = ({ weatherData })
   }, []);
 
   return (
-    <div className="terminal-container">
+    <FrostedGlass 
+      className="terminal-container"
+      blur={15}
+      opacity={0.3}
+      borderColor="#ff1493"
+      borderOpacity={0.5}
+      borderRadius={8}
+      padding="0"
+    >
       <div className="terminal-content">
         <div className="terminal-prompt">
           <span className="prompt-symbol">$</span> weather --location={weatherData.location}
@@ -90,6 +99,6 @@ export const WeatherTerminal: React.FC<WeatherTerminalProps> = ({ weatherData })
           </div>
         </div>
       </div>
-    </div>
+    </FrostedGlass>
   );
 };
