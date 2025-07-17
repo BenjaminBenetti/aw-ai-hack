@@ -29,7 +29,7 @@ body::before {
 
 /* Terminal Screen Styles */
 .terminal-screen {
-  min-height: var(--terminal-screen-min-height);
+  height: 100vh;
   position: relative;
   background: var(--terminal-bg);
   padding: var(--terminal-padding-medium);
@@ -46,7 +46,7 @@ body::before {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: var(--terminal-screen-min-height);
+  height: 100vh;
   position: relative;
 }
 

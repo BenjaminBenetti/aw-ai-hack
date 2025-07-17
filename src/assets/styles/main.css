@@ -26,10 +26,13 @@ body {
   font-family: var(--terminal-font);
   background: var(--terminal-bg);
   color: var(--terminal-text);
-  overflow-x: hidden;
-  min-height: var(--terminal-screen-min-height);
+  overflow: hidden;
+  height: 100vh;
   position: relative;
   letter-spacing: var(--terminal-letter-spacing);
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 /* Global focus styles for accessibility */
