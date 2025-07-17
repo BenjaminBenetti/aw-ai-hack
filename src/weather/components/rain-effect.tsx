@@ -44,8 +44,8 @@ export const RainEffect: React.FC<RainEffectProps> = ({ isRaining, intensity = 5
       return {
         id: index,
         left: leftPercent,
-        animationDuration: Math.random() * 3 + 2,
-        delay: Math.random() * 4,
+        animationDuration: Math.random() * 6 + 4,
+        delay: Math.random() * 8,
         text: getRandomChar()
       };
     };
@@ -80,6 +80,7 @@ export const RainEffect: React.FC<RainEffectProps> = ({ isRaining, intensity = 5
           className="rain-drop"
           style={{
             left: `${drop.left}%`,
+            top: '-50px',
             animationDuration: `${drop.animationDuration}s`,
             animationDelay: `${drop.delay}s`,
           }}
