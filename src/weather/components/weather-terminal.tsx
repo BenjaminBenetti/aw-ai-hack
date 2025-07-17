@@ -83,8 +83,8 @@ export const WeatherTerminal: React.FC<WeatherTerminalProps> = ({
               <span className="data-value">{weatherData.windDirection.toFixed(0)}°</span>
             </div>
             <div className="data-row">
-              <span className="data-label">WEATHER CODE:</span>
-              <span className="data-value">{weatherData.weatherCode}</span>
+              <span className="data-label">CONDITIONS:</span>
+              <span className="data-value">{weatherService.getWeatherDescription(weatherData.weatherCode)}</span>
             </div>
           </div>
 
