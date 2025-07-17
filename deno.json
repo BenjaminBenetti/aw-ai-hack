@@ -1,0 +1,10 @@
+{
+  "tasks": {
+    "dev": "deno run --watch main.ts",
+    "bundle": "deno bundle ./src/main.ts -o dist/app.js ",
+    "bundle:watch": "deno bundle --watch ./src/main.ts -o dist/app.js"
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@1"
+  }
+}
