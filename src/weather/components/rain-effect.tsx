@@ -92,7 +92,7 @@ export const RainEffect: React.FC<RainEffectProps> = ({ isRaining, intensity = 5
       return {
         id: index,
         left: leftPercent,
-        animationDuration: Math.random() * 6 + 4,
+        animationDuration: Math.random() * 1 + 0.5,
         delay: Math.random() * 8,
         text: getRandomChar(),
         splatterY

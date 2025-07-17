@@ -195,11 +195,11 @@ body::before {
 
 .rain-drop {
   position: absolute;
-  color: #00ffff;
+  color: #ff0080;
   font-family: var(--terminal-font);
   font-size: 8px;
   font-weight: bold;
-  text-shadow: 0 0 3px #00ffff, 0 0 6px #00ffff, 0 0 9px #00ffff;
+  text-shadow: 0 0 3px #ff0080, 0 0 6px #ff0080, 0 0 9px #ff0080;
   animation: rain-fall steps(50) infinite;
   user-select: none;
   pointer-events: none;
@@ -230,11 +230,11 @@ body::before {
 
 .splatter-char {
   position: absolute;
-  color: #00ffff;
+  color: #ff0080;
   font-family: var(--terminal-font);
   font-size: 8px;
   font-weight: bold;
-  text-shadow: 0 0 2px #00ffff, 0 0 4px #00ffff;
+  text-shadow: 0 0 2px #ff0080, 0 0 4px #ff0080;
   animation: splatter-appear 0.2s ease-out, splatter-fade 1s ease-out;
   opacity: 0;
 }
@@ -607,7 +607,7 @@ body::before {
   max-width: 1400px;
   padding: var(--terminal-padding-medium);
   box-sizing: border-box;
-  max-height: calc(100vh - 280px - var(--terminal-padding-medium) * 2);
+  max-height: calc(100vh - 280px);
   overflow-y: auto;
 }
 
