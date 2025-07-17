@@ -83,12 +83,6 @@ export const WeatherPage: React.FC = () => {
             </div>
           </div>
         )}
-        
-        <div className="terminal-footer">
-          <pre>
-{'└─────────────────────────────────────────────────────────────────────────────────┘'}
-          </pre>
-        </div>
       </div>
     </div>
   );
