@@ -14,11 +14,18 @@ interface RainDrop {
   splatterY?: number;
 } 
 
+interface SplatterChar {
+  char: string;
+  x: number;
+  y: number;
+  delay: number;
+}
+
 interface Splatter {
   id: number;
   x: number;
   y: number;
-  characters: string[];
+  characters: SplatterChar[];
   createdAt: number;
 }
 
@@ -28,8 +35,21 @@ export const RainEffect: React.FC<RainEffectProps> = ({ isRaining, intensity = 5
 
   // Handle splatters
   const handleAnimationIteration = (dropId: number, leftPercent: number, splatterY: number) => {
-    // Create splatter effect
-    const splatterChars = Array.from({ length: 3 + Math.floor(Math.random() * 4) }, () => getRandomChar());
+    // Create realistic rain splatter - flat on top, spreads horizontally and down
+    const splatterCount = 3 + Math.floor(Math.random() * 4); // 3-6 characters
+    const splatterChars = Array.from({ length: splatterCount }, () => {
+      // Horizontal spread with slight downward bias
+      const horizontalSpread = (Math.random() - 0.5) * 60; // -30px to +30px horizontal
+      const verticalSpread = Math.random() * 15; // 0-15px downward only
+      
+      return {
+        char: getRandomChar(),
+        x: horizontalSpread,
+        y: verticalSpread,
+        delay: Math.random() * 0.2 // Random delay up to 0.2s
+      };
+    });
+    
     const newSplatter: Splatter = {
       id: Date.now() + dropId,
       x: leftPercent,
@@ -66,8 +86,8 @@ export const RainEffect: React.FC<RainEffectProps> = ({ isRaining, intensity = 5
       const column = Math.floor(Math.random() * columnCount);
       const leftPercent = (column / columnCount) * 100;
       
-      // Random splatter point in bottom quarter (75% - 100% of screen)
-      const splatterY = 75 + Math.random() * 25;
+      // Random splatter point in bottom 10% (90% - 100% of screen)
+      const splatterY = 90 + Math.random() * 10;
       
       return {
         id: index,
@@ -98,8 +118,8 @@ export const RainEffect: React.FC<RainEffectProps> = ({ isRaining, intensity = 5
     // Clean up old splatters
     const splatterCleanup = setInterval(() => {
       const now = Date.now();
-      setSplatters(prev => prev.filter(splatter => now - splatter.createdAt < 3000));
-    }, 1000);
+      setSplatters(prev => prev.filter(splatter => now - splatter.createdAt < 1000));
+    }, 500);
 
     return () => {
       clearInterval(textUpdateInterval);
@@ -139,16 +159,17 @@ export const RainEffect: React.FC<RainEffectProps> = ({ isRaining, intensity = 5
             top: `${splatter.y}vh`,
           }}
         >
-          {splatter.characters.map((char, index) => (
+          {splatter.characters.map((charData, index) => (
             <span
               key={index}
               className="splatter-char"
               style={{
-                left: `${(index - 1) * 10}px`,
-                animationDelay: `${index * 0.1}s`
+                left: `${charData.x}px`,
+                top: `${charData.y}px`,
+                animationDelay: `${charData.delay}s`
               }}
             >
-              {char}
+              {charData.char}
             </span>
           ))}
         </div>

@@ -222,6 +222,8 @@ body::before {
   position: absolute;
   pointer-events: none;
   user-select: none;
+  width: 0;
+  height: 0;
 }
 
 .splatter-char {
@@ -231,7 +233,7 @@ body::before {
   font-size: 8px;
   font-weight: bold;
   text-shadow: 0 0 2px #00ffff, 0 0 4px #00ffff;
-  animation: splatter-appear 0.3s ease-out, splatter-fade 3s ease-out;
+  animation: splatter-appear 0.2s ease-out, splatter-fade 1s ease-out;
   opacity: 0;
 }
 
@@ -250,7 +252,7 @@ body::before {
   0% {
     opacity: 1;
   }
-  70% {
+  60% {
     opacity: 1;
   }
   100% {
