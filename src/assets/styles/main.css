@@ -25,6 +25,10 @@ html {
 body {
   font-family: var(--terminal-font);
   background: var(--terminal-bg);
+  background-size: var(--terminal-bg-size);
+  background-position: var(--terminal-bg-position);
+  background-repeat: var(--terminal-bg-repeat);
+  background-attachment: var(--terminal-bg-attachment);
   color: var(--terminal-text);
   overflow: hidden;
   height: 100vh;

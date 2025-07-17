@@ -1,7 +1,11 @@
 /* Terminal Theme Variables */
 :root {
   /* Colors */
-  --terminal-bg: #000000;
+  --terminal-bg: url('/img/background/primary-background.png');
+  --terminal-bg-size: cover;
+  --terminal-bg-position: center center;
+  --terminal-bg-repeat: no-repeat;
+  --terminal-bg-attachment: fixed;
   --terminal-primary: #ff1493;
   --terminal-secondary: #ff69b4;
   --terminal-accent: #ff20aa;
@@ -10,6 +14,11 @@
   --terminal-glow: #ff1493;
   --terminal-rain: rgba(255, 20, 147, 0.4);
   --terminal-scanline: rgba(255, 20, 147, 0.03);
+  
+  /* Frosted Glass Effect */
+  --terminal-glass-bg: rgba(0, 0, 0, 0.3);
+  --terminal-glass-border: rgba(255, 20, 147, 0.5);
+  --terminal-glass-blur: 15px;
   
   /* Typography */
   --terminal-font: 'Courier Prime', 'Courier New', monospace;
