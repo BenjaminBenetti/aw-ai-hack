@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { HelloWorld } from './app/components/HelloWorld.tsx';
+import { WeatherTest } from './weather/components/WeatherTest.tsx';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -8,6 +8,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <HelloWorld />
+    <WeatherTest />
   </React.StrictMode>
 );

@@ -5,7 +5,8 @@
     "jsr:@std/bytes@^1.0.2": "1.0.6",
     "jsr:@std/encoding@^1.0.5": "1.0.10",
     "jsr:@std/internal@^1.0.9": "1.0.9",
-    "jsr:@std/path@^1.0.6": "1.1.1"
+    "jsr:@std/path@^1.0.6": "1.1.1",
+    "npm:openmeteo@*": "1.2.0"
   },
   "jsr": {
     "@luca/esbuild-deno-loader@0.11.0": {
@@ -32,10 +33,39 @@
       ]
     }
   },
+  "npm": {
+    "@openmeteo/sdk@1.20.1": {
+      "integrity": "sha512-o5tw3+N617Ms8nDm649PWwWt6PDz8NHWBLjOOFB8bx/EJpvsvKEeHMMoapxQ71bjHzQM+4h39eCe6/nM+nBuwg==",
+      "dependencies": [
+        "flatbuffers"
+      ]
+    },
+    "flatbuffers@25.2.10": {
+      "integrity": "sha512-7JlN9ZvLDG1McO3kbX0k4v+SUAg48L1rIwEvN6ZQl/eCtgJz9UylTMzE9wrmYrcorgxm3CX/3T/w5VAub99UUw=="
+    },
+    "openmeteo@1.2.0": {
+      "integrity": "sha512-YinFo02TM4wXdm9o2FBAO2u1ka3drNdnFsGNskiO8aCWvZa6nljh3ioH79ipwPdFhCrIiq/LCfpjDGXqH2RBFw==",
+      "dependencies": [
+        "@openmeteo/sdk",
+        "flatbuffers"
+      ]
+    }
+  },
+  "redirects": {
+    "https://esm.sh/@types/react@~18.3.18/jsx-runtime.d.ts": "https://esm.sh/@types/react@18.3.23/jsx-runtime.d.ts"
+  },
   "remote": {
     "https://deno.land/x/denoflate@1.2.1/mod.ts": "f5628e44b80b3d80ed525afa2ba0f12408e3849db817d47a883b801f9ce69dd6",
     "https://deno.land/x/denoflate@1.2.1/pkg/denoflate.js": "b9f9ad9457d3f12f28b1fb35c555f57443427f74decb403113d67364e4f2caf4",
     "https://deno.land/x/denoflate@1.2.1/pkg/denoflate_bg.wasm.js": "d581956245407a2115a3d7e8d85a9641c032940a8e810acbd59ca86afd34d44d",
-    "https://deno.land/x/esbuild@v0.24.0/mod.js": "15b51f08198c373555700a695b6c6630a86f2c254938e81be7711eb6d4edc74e"
+    "https://deno.land/x/esbuild@v0.24.0/mod.js": "15b51f08198c373555700a695b6c6630a86f2c254938e81be7711eb6d4edc74e",
+    "https://esm.sh/react@18.3.1/denonext/jsx-runtime.mjs": "596605b8836d98f058e55f5b27d84c8d673a6468ae61516525a2da104353c5d9",
+    "https://esm.sh/react@18.3.1/denonext/react.mjs": "fec8d5ab4ffa55c8b563abc31060c3dc0205699aff20beec4aba0311efdcc1a0",
+    "https://esm.sh/react@18.3.1/jsx-runtime": "fae022412d077731999a21e4ed1eac632822bab088f04c980b08750ba33ade9a"
+  },
+  "workspace": {
+    "dependencies": [
+      "npm:openmeteo@*"
+    ]
   }
 }
