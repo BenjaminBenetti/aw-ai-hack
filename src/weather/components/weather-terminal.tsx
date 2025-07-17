@@ -6,9 +6,17 @@ import { FrostedGlass } from '../../ui/components/frosted-glass.tsx';
 
 interface WeatherTerminalProps {
   weatherData: WeatherData;
+  locationLatitude?: number;
+  locationLongitude?: number;
+  isCurrentLocation?: boolean;
 }
 
-export const WeatherTerminal: React.FC<WeatherTerminalProps> = ({ weatherData }) => {
+export const WeatherTerminal: React.FC<WeatherTerminalProps> = ({ 
+  weatherData, 
+  locationLatitude, 
+  locationLongitude, 
+  isCurrentLocation = false 
+}) => {
   const [forecastData, setForecastData] = useState<ForecastData | null>(null);
   const [forecastLoading, setForecastLoading] = useState<boolean>(true);
   const [forecastError, setForecastError] = useState<string | null>(null);
@@ -19,7 +27,20 @@ export const WeatherTerminal: React.FC<WeatherTerminalProps> = ({ weatherData })
       try {
         setForecastLoading(true);
         setForecastError(null);
-        const forecast = await weatherService.getCurrentLocationForecast();
+        
+        let forecast: ForecastData;
+        if (isCurrentLocation) {
+          forecast = await weatherService.getCurrentLocationForecast();
+        } else if (locationLatitude !== undefined && locationLongitude !== undefined) {
+          forecast = await weatherService.get7DayForecast(
+            locationLatitude,
+            locationLongitude,
+            weatherData.location
+          );
+        } else {
+          throw new Error('Invalid location data for forecast');
+        }
+        
         setForecastData(forecast);
       } catch (err) {
         setForecastError(err instanceof Error ? err.message : 'Failed to fetch forecast data');
@@ -29,7 +50,7 @@ export const WeatherTerminal: React.FC<WeatherTerminalProps> = ({ weatherData })
     };
 
     fetchForecast();
-  }, []);
+  }, [locationLatitude, locationLongitude, isCurrentLocation, weatherData.location]);
 
   return (
     <FrostedGlass 

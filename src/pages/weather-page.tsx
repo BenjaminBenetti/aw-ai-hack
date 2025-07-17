@@ -110,7 +110,12 @@ export const WeatherPage: React.FC = () => {
       
       <div className="main-terminal-container">
         {weatherData && (
-          <WeatherTerminal weatherData={weatherData} />
+          <WeatherTerminal 
+            weatherData={weatherData}
+            locationLatitude={selectedLocation.latitude}
+            locationLongitude={selectedLocation.longitude}
+            isCurrentLocation={selectedLocation.isCurrentLocation || false}
+          />
         )}
       </div>
     </div>
