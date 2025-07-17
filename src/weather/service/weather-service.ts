@@ -10,17 +10,13 @@ export interface WeatherData {
 }
 
 export class WeatherService {
-  private static readonly VICTORIA_BC_COORDS = {
-    latitude: 48.4284,
-    longitude: -123.3656
-  };
 
-  async getVictoriaWeather(): Promise<WeatherData> {
+  async getWeatherForLocation(latitude: number, longitude: number, locationName?: string): Promise<WeatherData> {
     const params = {
-      latitude: [WeatherService.VICTORIA_BC_COORDS.latitude],
-      longitude: [WeatherService.VICTORIA_BC_COORDS.longitude],
+      latitude: [latitude],
+      longitude: [longitude],
       current: 'temperature_2m,weather_code,wind_speed_10m,wind_direction_10m',
-      timezone: 'America/Vancouver'
+      timezone: 'auto'
     };
 
     const url = 'https://api.open-meteo.com/v1/forecast';
@@ -33,7 +29,7 @@ export class WeatherService {
       const current = response.current()!;
       
       const weatherData: WeatherData = {
-        location: 'Victoria, BC, Canada',
+        location: locationName || `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`,
         temperature: current.variables(0)!.value(), // temperature_2m
         windSpeed: current.variables(2)!.value(), // wind_speed_10m
         windDirection: current.variables(3)!.value(), // wind_direction_10m
@@ -59,6 +55,51 @@ export class WeatherService {
       console.error('Error fetching weather data:', error);
       throw new Error(`Failed to fetch weather data: ${error.message}`);
     }
+  }
+
+  getCurrentLocationWeather(): Promise<WeatherData> {
+    return new Promise((resolve, reject) => {
+      if (!navigator.geolocation) {
+        reject(new Error('Geolocation is not supported by this browser.'));
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          try {
+            const { latitude, longitude } = position.coords;
+            const weatherData = await this.getWeatherForLocation(
+              latitude,
+              longitude,
+              'Current Location'
+            );
+            resolve(weatherData);
+          } catch (error) {
+            reject(error);
+          }
+        },
+        (error) => {
+          let errorMessage = 'Unable to retrieve your location.';
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              errorMessage = 'Location access denied by user.';
+              break;
+            case error.POSITION_UNAVAILABLE:
+              errorMessage = 'Location information is unavailable.';
+              break;
+            case error.TIMEOUT:
+              errorMessage = 'Location request timed out.';
+              break;
+          }
+          reject(new Error(errorMessage));
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 300000 // 5 minutes
+        }
+      );
+    });
   }
 }
 
