@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/app/src
+      - ./deno.json:/app/deno.json
+      - ./deno.lock:/app/deno.lock
+    develop:
+      watch:
+        - path: ./src
+          action: restart
+        - path: ./deno.json
+          action: restart
