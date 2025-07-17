@@ -212,7 +212,48 @@ body::before {
     opacity: 1;
   }
   100% {
-    transform: translateY(calc(100vh + 50px));
+    transform: translateY(var(--splatter-y, calc(100vh + 50px)));
+    opacity: 1;
+  }
+}
+
+/* Rain Splatter Effect */
+.rain-splatter {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+}
+
+.splatter-char {
+  position: absolute;
+  color: #00ffff;
+  font-family: var(--terminal-font);
+  font-size: 8px;
+  font-weight: bold;
+  text-shadow: 0 0 2px #00ffff, 0 0 4px #00ffff;
+  animation: splatter-appear 0.3s ease-out, splatter-fade 3s ease-out;
+  opacity: 0;
+}
+
+@keyframes splatter-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(0deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(var(--random-rotation, 0deg));
+  }
+}
+
+@keyframes splatter-fade {
+  0% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
     opacity: 0;
   }
 }

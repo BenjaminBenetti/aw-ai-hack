@@ -11,10 +11,35 @@ interface RainDrop {
   animationDuration: number;
   delay: number;
   text: string;
+  splatterY?: number;
+} 
+
+interface Splatter {
+  id: number;
+  x: number;
+  y: number;
+  characters: string[];
+  createdAt: number;
 }
 
 export const RainEffect: React.FC<RainEffectProps> = ({ isRaining, intensity = 50 }) => {
   const [rainDrops, setRainDrops] = useState<RainDrop[]>([]);
+  const [splatters, setSplatters] = useState<Splatter[]>([]);
+
+  // Handle splatters
+  const handleAnimationIteration = (dropId: number, leftPercent: number, splatterY: number) => {
+    // Create splatter effect
+    const splatterChars = Array.from({ length: 3 + Math.floor(Math.random() * 4) }, () => getRandomChar());
+    const newSplatter: Splatter = {
+      id: Date.now() + dropId,
+      x: leftPercent,
+      y: splatterY,
+      characters: splatterChars,
+      createdAt: Date.now()
+    };
+    
+    setSplatters(prev => [...prev, newSplatter]);
+  };
 
   // Characters for the rain text effect
   const rainChars = [
@@ -41,12 +66,16 @@ export const RainEffect: React.FC<RainEffectProps> = ({ isRaining, intensity = 5
       const column = Math.floor(Math.random() * columnCount);
       const leftPercent = (column / columnCount) * 100;
       
+      // Random splatter point in bottom quarter (75% - 100% of screen)
+      const splatterY = 75 + Math.random() * 25;
+      
       return {
         id: index,
         left: leftPercent,
         animationDuration: Math.random() * 6 + 4,
         delay: Math.random() * 8,
-        text: getRandomChar()
+        text: getRandomChar(),
+        splatterY
       };
     };
 
@@ -65,7 +94,17 @@ export const RainEffect: React.FC<RainEffectProps> = ({ isRaining, intensity = 5
       }
     }, 800);
 
-    return () => clearInterval(textUpdateInterval);
+
+    // Clean up old splatters
+    const splatterCleanup = setInterval(() => {
+      const now = Date.now();
+      setSplatters(prev => prev.filter(splatter => now - splatter.createdAt < 3000));
+    }, 1000);
+
+    return () => {
+      clearInterval(textUpdateInterval);
+      clearInterval(splatterCleanup);
+    };
   }, [isRaining, intensity]);
 
   if (!isRaining) {
@@ -83,9 +122,35 @@ export const RainEffect: React.FC<RainEffectProps> = ({ isRaining, intensity = 5
             top: '-50px',
             animationDuration: `${drop.animationDuration}s`,
             animationDelay: `${drop.delay}s`,
-          }}
+            '--splatter-y': `${drop.splatterY}vh`
+          } as React.CSSProperties}
+          onAnimationIteration={() => handleAnimationIteration(drop.id, drop.left, drop.splatterY!)}
         >
           {drop.text}
+        </div>
+      ))}
+      
+      {splatters.map((splatter) => (
+        <div
+          key={splatter.id}
+          className="rain-splatter"
+          style={{
+            left: `${splatter.x}%`,
+            top: `${splatter.y}vh`,
+          }}
+        >
+          {splatter.characters.map((char, index) => (
+            <span
+              key={index}
+              className="splatter-char"
+              style={{
+                left: `${(index - 1) * 10}px`,
+                animationDelay: `${index * 0.1}s`
+              }}
+            >
+              {char}
+            </span>
+          ))}
         </div>
       ))}
     </div>
