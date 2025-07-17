@@ -49,7 +49,7 @@ export const WeatherPage: React.FC = () => {
   return (
     <div className="terminal-screen">
       {weatherData && (
-        <RainEffect isRaining={true} intensity={60} />
+        <RainEffect isRaining={weatherService.isRaining(weatherData.weatherCode)} intensity={60} />
       )}
       
       <div className="header-container">

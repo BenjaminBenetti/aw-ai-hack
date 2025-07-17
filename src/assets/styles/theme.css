@@ -1,7 +1,14 @@
 /* Terminal Theme Variables */
 :root {
   /* Colors */
-  --terminal-bg: url('/img/background/primary-background.png');
+  --terminal-bg: 
+    linear-gradient(to bottom, 
+      transparent 0%, 
+      transparent 75%, 
+      rgba(0, 0, 0, 0.6) 90%, 
+      rgba(0, 0, 0, 0.9) 100%
+    ),
+    url('/img/background/primary-background.png');
   --terminal-bg-size: cover;
   --terminal-bg-position: center center;
   --terminal-bg-repeat: no-repeat;
