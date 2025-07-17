@@ -12,7 +12,7 @@ export const ForecastBarGraph: React.FC<ForecastBarGraphProps> = ({ forecastData
   const getMetricValue = (day: DailyForecastData): number => {
     switch (metric) {
       case 'temperature':
-        return (day.temperatureMax + day.temperatureMin) / 2;
+        return day.temperatureMax;
       case 'precipitation':
         return day.precipitationSum;
       case 'wind':

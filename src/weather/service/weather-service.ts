@@ -1,12 +1,27 @@
 import { fetchWeatherApi } from 'openmeteo';
 
+export interface CurrentWeatherResponse {
+  latitude: number;
+  longitude: number;
+  elevation: number;
+  timezone: string;
+  timezoneAbbreviation: string;
+  current: {
+    time: string;
+    temperature_2m: number;
+    weather_code: number;
+    wind_speed_10m: number;
+    wind_direction_10m: number;
+  };
+}
+
 export interface WeatherData {
   location: string;
   temperature: number;
   windSpeed: number;
   windDirection: number;
   weatherCode: number;
-  rawResponse: any;
+  rawResponse: CurrentWeatherResponse;
 }
 
 export interface DailyForecastData {
@@ -18,10 +33,26 @@ export interface DailyForecastData {
   weatherCode: number;
 }
 
+export interface DailyForecastResponse {
+  latitude: number;
+  longitude: number;
+  elevation: number;
+  timezone: string;
+  timezoneAbbreviation: string;
+  daily: {
+    time: string[];
+    temperature_2m_max: number[];
+    temperature_2m_min: number[];
+    precipitation_sum: number[];
+    wind_speed_10m_max: number[];
+    weather_code: number[];
+  };
+}
+
 export interface ForecastData {
   location: string;
   daily: DailyForecastData[];
-  rawResponse: any;
+  rawResponse: DailyForecastResponse;
 }
 
 export class WeatherService {
@@ -104,17 +135,37 @@ export class WeatherService {
       const daily = response.daily()!;
       const dailyData: DailyForecastData[] = [];
       
-      // Get data for each day
-      for (let i = 0; i < 7; i++) {
+      // Get the data arrays
+      const tempMaxArray: number[] = Array.from(daily.variables(0)!.valuesArray()!); // temperature_2m_max
+      const tempMinArray: number[] = Array.from(daily.variables(1)!.valuesArray()!); // temperature_2m_min
+      const precipitationArray: number[] = Array.from(daily.variables(2)!.valuesArray()!); // precipitation_sum
+      const windSpeedArray: number[] = Array.from(daily.variables(3)!.valuesArray()!); // wind_speed_10m_max
+      const weatherCodeArray: number[] = Array.from(daily.variables(4)!.valuesArray()!); // weather_code
+
+      console.log(tempMaxArray);
+      
+      // Process each day's data (limited to 7 days)
+      const numDays = Math.min(7, tempMaxArray.length);
+      for (let i = 0; i < numDays; i++) {
+        // Convert Unix timestamp to ISO date string
+        const timeValue = daily.timeEnd() ? Number(daily.timeEnd()) + (i * 24 * 60 * 60) : Number(daily.time()) + (i * 24 * 60 * 60);
+        const date = new Date(timeValue * 1000).toISOString().split('T')[0];
+        
         dailyData.push({
-          date: new Date(Number(daily.time(i)) * 1000).toISOString().split('T')[0],
-          temperatureMax: daily.variables(0)!.valuesArray()![i], // temperature_2m_max
-          temperatureMin: daily.variables(1)!.valuesArray()![i], // temperature_2m_min
-          precipitationSum: daily.variables(2)!.valuesArray()![i], // precipitation_sum
-          windSpeedMax: daily.variables(3)!.valuesArray()![i], // wind_speed_10m_max
-          weatherCode: daily.variables(4)!.valuesArray()![i], // weather_code
+          date,
+          temperatureMax: tempMaxArray[i],
+          temperatureMin: tempMinArray[i],
+          precipitationSum: precipitationArray[i],
+          windSpeedMax: windSpeedArray[i],
+          weatherCode: weatherCodeArray[i],
         });
       }
+      
+      // Build raw response with proper time array conversion
+      const timeStrings = Array.from({length: numDays}, (_, i) => {
+        const timeValue = daily.timeEnd() ? Number(daily.timeEnd()) + (i * 24 * 60 * 60) : Number(daily.time()) + (i * 24 * 60 * 60);
+        return new Date(timeValue * 1000).toISOString().split('T')[0];
+      });
       
       const forecastData: ForecastData = {
         location: locationName || `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`,
@@ -126,12 +177,12 @@ export class WeatherService {
           timezone: response.timezone(),
           timezoneAbbreviation: response.timezoneAbbreviation(),
           daily: {
-            time: Array.from({length: 7}, (_, i) => new Date(Number(daily.time(i)) * 1000).toISOString()),
-            temperature_2m_max: daily.variables(0)!.valuesArray()!.slice(0, 7),
-            temperature_2m_min: daily.variables(1)!.valuesArray()!.slice(0, 7),
-            precipitation_sum: daily.variables(2)!.valuesArray()!.slice(0, 7),
-            wind_speed_10m_max: daily.variables(3)!.valuesArray()!.slice(0, 7),
-            weather_code: daily.variables(4)!.valuesArray()!.slice(0, 7),
+            time: timeStrings,
+            temperature_2m_max: tempMaxArray.slice(0, numDays),
+            temperature_2m_min: tempMinArray.slice(0, numDays),
+            precipitation_sum: precipitationArray.slice(0, numDays),
+            wind_speed_10m_max: windSpeedArray.slice(0, numDays),
+            weather_code: weatherCodeArray.slice(0, numDays),
           }
         }
       };

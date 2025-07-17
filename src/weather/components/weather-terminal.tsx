@@ -73,13 +73,13 @@ export const WeatherTerminal: React.FC<WeatherTerminalProps> = ({ weatherData })
           {forecastData && !forecastLoading && !forecastError && (
             <>
               <div className="forecast-section">
-                <ForecastButtons 
-                  currentMetric={selectedMetric}
-                  onMetricChange={setSelectedMetric}
-                />
                 <ForecastBarGraph 
                   forecastData={forecastData.daily}
                   metric={selectedMetric}
+                />
+                <ForecastButtons 
+                  currentMetric={selectedMetric}
+                  onMetricChange={setSelectedMetric}
                 />
               </div>
             </>
