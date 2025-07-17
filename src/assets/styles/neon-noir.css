@@ -33,6 +33,10 @@ body::before {
   position: relative;
   background: transparent;
   padding: var(--terminal-padding-medium);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .header-container {
@@ -43,10 +47,7 @@ body::before {
 }
 
 .main-terminal-container {
-  display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
   position: relative;
 }
 
@@ -399,6 +400,19 @@ body::before {
 }
 
 /* Responsive Design */
+@media (min-height: 900px) {
+  .terminal-screen {
+    padding-bottom: 10vh;
+  }
+}
+
+/* Responsive Design */
+@media (min-height: 1256px) {
+  .terminal-screen {
+    padding-bottom: 20vh;
+  }
+}
+
 @media (max-width: 768px) {
   .terminal-container {
     padding: 0;
