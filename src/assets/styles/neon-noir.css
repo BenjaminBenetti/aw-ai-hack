@@ -30,12 +30,24 @@ body::before {
 /* Terminal Screen Styles */
 .terminal-screen {
   min-height: var(--terminal-screen-min-height);
+  position: relative;
+  background: var(--terminal-bg);
+  padding: var(--terminal-padding-medium);
+}
+
+.header-container {
+  position: absolute;
+  top: var(--terminal-padding-medium);
+  left: var(--terminal-padding-medium);
+  z-index: 10;
+}
+
+.main-terminal-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: var(--terminal-padding-medium);
+  min-height: var(--terminal-screen-min-height);
   position: relative;
-  background: var(--terminal-bg);
 }
 
 .terminal-container {
