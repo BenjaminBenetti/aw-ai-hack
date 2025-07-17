@@ -603,8 +603,7 @@ body::before {
   justify-content: center;
   align-items: flex-start;
   align-content: flex-start;
-  width: calc(100% - var(--terminal-padding-medium) * 2);
-  max-width: 1400px;
+  width: 100%;
   padding: var(--terminal-padding-medium);
   box-sizing: border-box;
   max-height: calc(100vh - 280px);
