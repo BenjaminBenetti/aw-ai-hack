@@ -87,6 +87,9 @@ body::before {
   margin-bottom: var(--terminal-padding-small);
   text-shadow: var(--terminal-glow-small);
   font-family: var(--terminal-font);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .prompt-symbol {
