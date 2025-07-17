@@ -10,6 +10,19 @@ export interface WeatherData {
 }
 
 export class WeatherService {
+  
+  isRaining(weatherCode: number): boolean {
+    // Weather codes for rain conditions (based on WMO codes)
+    const rainCodes = [
+      51, 53, 55, // Drizzle
+      56, 57,     // Freezing drizzle
+      61, 63, 65, // Rain
+      66, 67,     // Freezing rain
+      80, 81, 82, // Rain showers
+      95, 96, 97  // Thunderstorm
+    ];
+    return rainCodes.includes(weatherCode);
+  }
 
   async getWeatherForLocation(latitude: number, longitude: number, locationName?: string): Promise<WeatherData> {
     const params = {

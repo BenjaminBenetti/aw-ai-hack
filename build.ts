@@ -14,8 +14,23 @@ const result = await esbuild.build({
   treeShaking: true,
 });
 
-// Copy assets
-await Deno.copyFile("./src/assets/index.html", "./dist/index.html");
+// Copy all assets recursively
+async function copyAssets(srcDir: string, destDir: string) {
+  await Deno.mkdir(destDir, { recursive: true });
+  
+  for await (const entry of Deno.readDir(srcDir)) {
+    const srcPath = `${srcDir}/${entry.name}`;
+    const destPath = `${destDir}/${entry.name}`;
+    
+    if (entry.isDirectory) {
+      await copyAssets(srcPath, destPath);
+    } else if (entry.isFile) {
+      await Deno.copyFile(srcPath, destPath);
+    }
+  }
+}
+
+await copyAssets("./src/assets", "./dist");
 
 console.log("Build completed successfully!");
 await esbuild.stop();
