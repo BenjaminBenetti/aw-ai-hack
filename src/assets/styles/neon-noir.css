@@ -35,7 +35,7 @@ body::before {
   padding: var(--terminal-padding-medium);
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
 }
 
@@ -589,15 +589,20 @@ body::before {
 
 /* Multi-terminal container styles */
 .multi-terminal-container {
+  position: absolute;
+  top: 280px; /* Position below terminal header */
+  bottom: 0px;
   display: flex;
   flex-wrap: wrap;
   gap: var(--terminal-margin-large);
   justify-content: center;
   align-items: flex-start;
-  width: 100%;
+  width: calc(100% - var(--terminal-padding-medium) * 2);
   max-width: 1400px;
-  margin: 0 auto;
   padding: var(--terminal-padding-medium);
+  box-sizing: border-box;
+  min-height: calc(100vh - 280px - var(--terminal-padding-medium) * 2);
+  overflow-y: auto;
 }
 
 .terminal-tile {
@@ -644,9 +649,13 @@ body::before {
 /* Responsive design for multi-terminal layout */
 @media (max-width: 768px) {
   .multi-terminal-container {
+    top: 320px; /* Extra space for mobile header and dropdown */
     flex-direction: column;
     gap: var(--terminal-margin-medium);
+    width: calc(100% - var(--terminal-padding-small) * 2);
     padding: var(--terminal-padding-small);
+    min-height: calc(100vh - 320px - var(--terminal-padding-small) * 2);
+    overflow-y: auto;
   }
   
   .terminal-tile {

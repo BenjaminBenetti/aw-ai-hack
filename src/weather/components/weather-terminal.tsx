@@ -116,7 +116,7 @@ export const WeatherTerminal: React.FC<WeatherTerminalProps> = ({
           )}
           
           <div className="terminal-prompt">
-            <span className="prompt-symbol">$</span> <span className="cursor">█</span>
+            <span className="prompt-symbol">$</span> <span className="cursor"></span>
           </div>
         </div>
       </div>
