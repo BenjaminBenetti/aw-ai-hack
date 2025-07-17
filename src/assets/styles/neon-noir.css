@@ -591,24 +591,28 @@ body::before {
 .multi-terminal-container {
   position: absolute;
   top: 280px; /* Position below terminal header */
-  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   flex-wrap: wrap;
-  gap: var(--terminal-margin-large);
+  row-gap: var(--terminal-margin-medium);
+  column-gap: var(--terminal-margin-large);
   justify-content: center;
   align-items: flex-start;
+  align-content: flex-start;
   width: calc(100% - var(--terminal-padding-medium) * 2);
   max-width: 1400px;
   padding: var(--terminal-padding-medium);
   box-sizing: border-box;
-  min-height: calc(100vh - 280px - var(--terminal-padding-medium) * 2);
+  max-height: calc(100vh - 280px - var(--terminal-padding-medium) * 2);
   overflow-y: auto;
 }
 
 .terminal-tile {
-  flex: 1 1 400px;
+  flex: 0 0 400px;
   min-width: 350px;
   max-width: 500px;
+  align-self: flex-start;
 }
 
 .no-locations-message {
@@ -651,7 +655,8 @@ body::before {
   .multi-terminal-container {
     top: 320px; /* Extra space for mobile header and dropdown */
     flex-direction: column;
-    gap: var(--terminal-margin-medium);
+    row-gap: var(--terminal-margin-small);
+    column-gap: var(--terminal-margin-medium);
     width: calc(100% - var(--terminal-padding-small) * 2);
     padding: var(--terminal-padding-small);
     min-height: calc(100vh - 320px - var(--terminal-padding-small) * 2);
