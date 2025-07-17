@@ -9,8 +9,8 @@ export interface LocationOption {
 }
 
 interface LocationDropdownProps {
-  selectedLocation: LocationOption;
-  onLocationChange: (location: LocationOption) => void;
+  selectedLocations: LocationOption[];
+  onLocationsChange: (locations: LocationOption[]) => void;
 }
 
 const PREDEFINED_LOCATIONS: LocationOption[] = [
@@ -32,8 +32,8 @@ const PREDEFINED_LOCATIONS: LocationOption[] = [
 ];
 
 export const LocationDropdown: React.FC<LocationDropdownProps> = ({
-  selectedLocation,
-  onLocationChange
+  selectedLocations,
+  onLocationsChange
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -51,12 +51,22 @@ export const LocationDropdown: React.FC<LocationDropdownProps> = ({
     };
   }, []);
 
-  const handleLocationSelect = (location: LocationOption) => {
-    onLocationChange(location);
-    setIsOpen(false);
+  const handleLocationToggle = (location: LocationOption) => {
+    const isSelected = selectedLocations.some(loc => loc.id === location.id);
+    let newSelections: LocationOption[];
     
-    // Store selection in localStorage
-    localStorage.setItem('weather-location', JSON.stringify(location));
+    if (isSelected) {
+      // Remove location if already selected
+      newSelections = selectedLocations.filter(loc => loc.id !== location.id);
+    } else {
+      // Add location if not selected
+      newSelections = [...selectedLocations, location];
+    }
+    
+    onLocationsChange(newSelections);
+    
+    // Store selections in localStorage
+    localStorage.setItem('weather-locations', JSON.stringify(newSelections));
   };
 
   return (
@@ -66,22 +76,34 @@ export const LocationDropdown: React.FC<LocationDropdownProps> = ({
         onClick={() => setIsOpen(!isOpen)}
         type="button"
       >
-        <span className="location-name">{selectedLocation.name}</span>
+        <span className="location-name">
+          {selectedLocations.length === 0
+            ? 'Select Locations'
+            : selectedLocations.length === 1
+            ? selectedLocations[0].name
+            : `${selectedLocations.length} Locations`}
+        </span>
         <span className="dropdown-arrow">{isOpen ? '▲' : '▼'}</span>
       </button>
       
       {isOpen && (
         <div className="location-dropdown-menu">
-          {PREDEFINED_LOCATIONS.map((location) => (
-            <button
-              key={location.id}
-              className={`location-option ${selectedLocation.id === location.id ? 'selected' : ''}`}
-              onClick={() => handleLocationSelect(location)}
-              type="button"
-            >
-              {location.name}
-            </button>
-          ))}
+          {PREDEFINED_LOCATIONS.map((location) => {
+            const isSelected = selectedLocations.some(loc => loc.id === location.id);
+            return (
+              <button
+                key={location.id}
+                className={`location-option ${isSelected ? 'selected' : ''}`}
+                onClick={() => handleLocationToggle(location)}
+                type="button"
+              >
+                <span className="location-checkbox">
+                  {isSelected ? '☑' : '☐'}
+                </span>
+                <span className="location-label">{location.name}</span>
+              </button>
+            );
+          })}
         </div>
       )}
     </div>
