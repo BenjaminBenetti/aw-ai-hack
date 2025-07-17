@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { WeatherPage } from './pages/weather-page.tsx';
+import { ParallaxBackground } from './ui/components/parallax-background.tsx';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -8,6 +9,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
+    <ParallaxBackground />
     <WeatherPage />
   </React.StrictMode>
 );

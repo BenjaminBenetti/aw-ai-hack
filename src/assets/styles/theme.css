@@ -7,8 +7,7 @@
       transparent 75%, 
       rgba(0, 0, 0, 0.6) 90%, 
       rgba(0, 0, 0, 0.9) 100%
-    ),
-    url('/img/background/primary-background.png');
+    );
   --terminal-bg-size: cover;
   --terminal-bg-position: center center;
   --terminal-bg-repeat: no-repeat;
@@ -87,5 +86,64 @@
     --terminal-blink-duration: 0s;
     --terminal-glow-duration: 0s;
     --terminal-scanline-duration: 0s;
+  }
+}
+
+/* Parallax Background Styles */
+.parallax-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -10;
+  overflow: hidden;
+}
+
+.parallax-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% + 60px);
+  height: calc(100% + 60px);
+  margin: -30px;
+  transition: transform 0.1s ease-out;
+  will-change: transform;
+}
+
+.parallax-layer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  user-select: none;
+  pointer-events: none;
+}
+
+.parallax-layer-back {
+  z-index: -10;
+}
+
+.parallax-layer-mid {
+  z-index: -9;
+}
+
+.parallax-layer-front {
+  z-index: -8;
+}
+
+/* Disable parallax on mobile for performance */
+@media (max-width: 768px) {
+  .parallax-layer {
+    transform: none !important;
+  }
+}
+
+/* Disable parallax for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .parallax-layer {
+    transform: none !important;
+    transition: none;
   }
 }
