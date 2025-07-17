@@ -38,7 +38,7 @@ export const TerminalHeader: React.FC<TerminalHeaderProps> = ({
     <div className="terminal-header">
       <pre className="ascii-art">
 {`┌─────────────────────────────────────────────────────────────────────────────────┐
-│                              ${centeredTitle}             │
+│                    ${centeredTitle}                       │
 ├─────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                 │
 │  ${artLines[0]}│

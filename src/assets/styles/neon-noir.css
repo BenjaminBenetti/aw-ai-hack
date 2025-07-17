@@ -18,7 +18,7 @@ body::before {
       var(--terminal-scanline) 4px
     );
   pointer-events: none;
-  z-index: 1;
+  z-index: 8;
   animation: scanlines var(--terminal-scanline-duration) linear infinite;
 }
 
@@ -31,7 +31,7 @@ body::before {
 .terminal-screen {
   height: 100vh;
   position: relative;
-  background: var(--terminal-bg);
+  background: transparent;
   padding: var(--terminal-padding-medium);
 }
 
@@ -161,7 +161,7 @@ body::before {
   font-size: var(--terminal-font-size-base);
   color: var(--terminal-text);
   text-shadow: var(--terminal-glow-medium);
-  background: var(--terminal-bg);
+  background: transparent;
   font-family: var(--terminal-font);
 }
 
@@ -173,7 +173,7 @@ body::before {
   font-size: var(--terminal-font-size-base);
   color: var(--terminal-text);
   text-shadow: var(--terminal-glow-medium);
-  background: var(--terminal-bg);
+  background: transparent;
   text-align: center;
   padding: var(--terminal-padding-medium);
   font-family: var(--terminal-font);
@@ -188,24 +188,34 @@ body::before {
   height: 100%;
   pointer-events: none;
   overflow: hidden;
-  z-index: -1;
+  z-index: 5;
 }
 
 .rain-drop {
   position: absolute;
-  background: linear-gradient(transparent, var(--terminal-rain));
-  width: 2px;
-  height: 100px;
-  animation: rain-fall linear infinite;
+  color: #00ffff;
+  font-family: var(--terminal-font);
+  font-size: 8px;
+  font-weight: bold;
+  text-shadow: 0 0 3px #00ffff, 0 0 6px #00ffff, 0 0 9px #00ffff;
+  animation: rain-fall steps(50) infinite;
+  user-select: none;
+  pointer-events: none;
 }
 
 @keyframes rain-fall {
   0% {
-    transform: translateY(-100px);
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  95% {
     opacity: 1;
   }
   100% {
-    transform: translateY(100vh);
+    transform: translateY(calc(100vh + 20px));
     opacity: 0;
   }
 }
